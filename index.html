@@ -4,9 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#142e64">
-  <link rel="icon" href="/icons/icon-192.png">
   <style>
     #homepage {
       display: none;
@@ -565,7 +563,8 @@
   width: 5em;
 }
 .button_cart_add {
-  list-style-type: none;
+  background-color: rgb(20,46,100);
+  color: white;
   padding: 7px;
   border-right: 1px solid grey;
 }
@@ -574,7 +573,8 @@
   padding: 7px 12.5px;
 }
 .button_cart_decrease {
-  list-style-type: none;
+  background-color: rgb(20,46,100);
+  color: white;
   padding: 7px;
   border-left: 1px solid grey;
 }
@@ -1436,9 +1436,14 @@ function add_to_cart() {
 
   // Drinks
 function drinks() {
-  const apiKey = ["AIzaSyDWNrk5Y3tlT7g1xAs157Pd77-oLMmOw0M","AIzaSyDovSVgpRkJ3od511umMilPQbbT5wM3dcE"];
-  const spreadsheetId = "1-VKCQfq0YvXrXWmcz6omL8aTF_0BARiF0zUlET_brXQ";
-  const range = "Sheet1"; // Change this range as needed
+  // AIzaSyDtYnCFqXieMKOaVo7OhN6b8W7esVdknJY (users4)
+  // AIzaSyBl_r5DKjdD3psXKxUOPA4XNhtxqsyrgT0 (users3)
+  //AIzaSyBJxaglYf_C8eg2RitXnRjaekXHAR-TEV8 (users2)
+  // AIzaSyDZTgkFS2btgRW_gudCuQZ6KKgCAe86OAo (users1)
+  // const apiKey = ["AIzaSyDWNrk5Y3tlT7g1xAs157Pd77-oLMmOw0M","AIzaSyDovSVgpRkJ3od511umMilPQbbT5wM3dcE"];
+  const apiKey = ["AIzaSyDZTgkFS2btgRW_gudCuQZ6KKgCAe86OAo", "AIzaSyBJxaglYf_C8eg2RitXnRjaekXHAR-TEV8"]
+  const spreadsheetId = "1u6lP1SoOr6w_ON2BFtsCFc76aDzlnE9q8zX8y2K7qu4";
+  const range = "Products"; // Change this range as needed
 
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey[Math.floor(Math.random() * apiKey.length)]}`;
 
@@ -1470,9 +1475,9 @@ function render_images() {
 
 // Topping
 function topping_info() {
-  const apiKey = ["AIzaSyDWNrk5Y3tlT7g1xAs157Pd77-oLMmOw0M","AIzaSyDovSVgpRkJ3od511umMilPQbbT5wM3dcE"];
-  const spreadsheetId = "1-VKCQfq0YvXrXWmcz6omL8aTF_0BARiF0zUlET_brXQ";
-  const range = "Sheet2";
+  const apiKey = ["AIzaSyBl_r5DKjdD3psXKxUOPA4XNhtxqsyrgT0", "AIzaSyDtYnCFqXieMKOaVo7OhN6b8W7esVdknJY"]
+  const spreadsheetId = "1u6lP1SoOr6w_ON2BFtsCFc76aDzlnE9q8zX8y2K7qu4";
+  const range = "Topping";
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey[Math.floor(Math.random() * apiKey.length)]}`;
   return fetch(url)
   .then(response => response.json())
@@ -1542,11 +1547,13 @@ function add_cart(name,price,image,topping) {
     }
 }
 
-
+//https://autumns-ambrosia-order1.onrender.com
+//https://autumns-ambrosia-order2.onrender.com
 //send
 function send(button) {
   button.disabled = true;
   alert("We will be redirecting you to another site to view your final order.");
+  var order_links = ["https://autumns-ambrosia-order1.onrender.com", "https://autumns-ambrosia-order2.onrender.com"]
   var order = document.getElementsByClassName("selected_items");
     let order_checked = [];
     for (i=0; i<order.length; i++) {
@@ -1575,11 +1582,12 @@ function send(button) {
   console.log(string_data)
    
   let token;
-  fetch("https://user-account-autumn-ambrosia.onrender.com/token")
+  let link_chosen = order_links[Math.floor(Math.random() * order_links.length)]
+  fetch(`${link_chosen}/token`)
   .then(response => response.json())
   .then(data => {
     token = data.token; 
-    return fetch(`https://user-account-autumn-ambrosia.onrender.com/submit_order?token=${token}`, {
+    return fetch(`${link_chosen}/submit_order?token=${token}`, {
       method: "POST",
       headers: {
          "Content-Type": "application/json"
@@ -1590,7 +1598,7 @@ function send(button) {
     .then(response => response.json())
     .then(data => {
       if (data.message == "success") {
-        window.location.href = `https://user-account-autumn-ambrosia.onrender.com/confirm?token=${token}`;
+        window.location.href = `${link_chosen}/confirm?token=${token}`;
       } else {
         alert(`Error: ${data.error}`)
       }
@@ -1623,7 +1631,7 @@ function send(button) {
      
        if (user != null) {
           try {
-           document.getElementById("welcome").innerHTML = `Hello ${user}, what would you like to search today?`;
+           document.getElementById("welcome").innerHTML = `Hello ${user}, what would you like to order today?`;
            console.log("running");
            navigation = "home";
            console.log("running");
@@ -1647,7 +1655,7 @@ function check_if_got_user() {
   console.log(user);
   if (user != null) {
      try {
-      document.getElementById("welcome").innerHTML = `Hello ${user}, what would you like to search today?`;
+      document.getElementById("welcome").innerHTML = `Hello ${user}, what would you like to order today?`;
       console.log("running");
       navigation = "home";
       console.log("running");
