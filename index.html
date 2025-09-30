@@ -1,9 +1,12 @@
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#142e64">
+  <link rel="icon" href="/icons/icon-192.png">
   <style>
     #homepage {
       display: none;
@@ -32,6 +35,34 @@
     #add_to_cart_page {
        display: none;
     }
+
+.splash-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.splash-screen img {
+  max-width: 300px;
+  width: 80%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.loading-text {
+ font-size: 1.5em;
+ color: #555;
+ animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.3; }
+}
     
    /* Homepage */
     #hamburger_radio:checked ~ #hamburger_container #hamburger_group {
@@ -895,6 +926,11 @@ img {vertical-align: middle;}
 </head>
 <body>
 
+<div class="splash-screen">
+  <img src="https://ik.imagekit.io/mtezxb4dx/IMG_0769.jpeg?updatedAt=1759201442325" onerror="this.onerror=null; this.src='https://i.ibb.co/FLRCtZq5/d8a59c32-8b55-4b55-8b58-90c4b12ad723.jpg';" alt="Splash Image">
+  <h3 class="loading-text">Loading...</h3>
+</div>
+
   <fieldset id="create_screen">
         <h1>We would like to know about you.</h1>
         <div class="container">
@@ -1610,7 +1646,8 @@ function send(button) {
       button.disabled = false; 
     });
   }
-  
+
+
   
   function get_user() {
       const name = document.getElementById("create_name").value.trim();
@@ -1646,7 +1683,7 @@ function send(button) {
       }
     }
    }
- 
+
 
 //Sign in
 function check_if_got_user() {
@@ -1670,7 +1707,6 @@ function check_if_got_user() {
 }
 
 
-
  //delete account
  function delete_acc() {
   localStorage.removeItem("user");
@@ -1678,11 +1714,24 @@ function check_if_got_user() {
   navigate();
  }
 
- function first_to_run() {
-    check_if_got_user();
-    console.log("Run");
-    drinks();
-    initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` }).then(SQL => {
+ async function first_to_run() {
+  try {
+    // Show splash screen until all loading is done
+    document.querySelector('.splash-screen').style.display = 'block';
+
+    // Step 1: Check user
+    const user = localStorage.getItem("user");
+    const welcomeElement = document.getElementById("welcome");
+    if (user) {
+      welcomeElement.innerHTML = `Hello ${user}, what would you like to order today?`;
+      navigation = "home";
+    } else {
+      navigation = "create";
+    }
+
+    // Step 2: Initialize database
+    const SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` });
+
     if (localStorage.getItem("saved_database")) {
       const savedDatabase = localStorage.getItem("saved_database");
       const uInt8Array = new Uint8Array(JSON.parse(savedDatabase));
@@ -1691,20 +1740,32 @@ function check_if_got_user() {
       db = new SQL.Database();
       db.run("CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, quantity INTEGER, total_price INTEGER, topping TEXT, url TEXT);");
     }
-    });
-    console.log("Run");
 
-    topping_info().then(data => {
-     topping_price = data;
-     console.log(topping_price);
-    });
+    // Step 3: Load topping info
+    topping_price = await topping_info();
+    console.log("Topping info loaded:", topping_price);
 
-    drinks().then(data => {
-      product_list = data;
-      console.log(product_list);
-      render_images();
-    });
- }
+    // Step 4: Load product list
+    product_list = await drinks();
+    console.log("Product list loaded:", product_list);
+
+    // Step 5: Render images
+    render_images();
+
+    // Step 6: Hide splash screen and navigate
+    document.querySelector('.splash-screen').style.display = 'none';
+    navigate();
+
+    // Optional greeting
+    if (user) {
+      alert("Welcome to Autumn's Ambrosia");
+    }
+  } catch (err) {
+    console.error("Initialization error:", err);
+    alert("An error occurred during startup. Please refresh the page.");
+  }
+}
+
  
  let slideIndex = 1;
 showSlides(slideIndex);
