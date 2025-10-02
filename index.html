@@ -1644,10 +1644,10 @@ function check_if_got_user() {
  //delete account
  function delete_acc() {
   localStorage.removeItem("user");
-  db.run('DELETE FROM cart');
-  save_cartdata();
   navigation = "create";
   navigate();
+  db.run('DELETE FROM cart');
+  save_cartdata();
  }
 
  async function first_to_run() {
