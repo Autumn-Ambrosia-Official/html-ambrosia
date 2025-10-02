@@ -1084,15 +1084,15 @@ img {vertical-align: middle;}
        <p id="here_are">Here are some of our famous drinks.</p>
    </div>
         <div class="each_person">
-            <img src="https://i.ibb.co/MyQ7Sbbd/img1.png" class="image_about" alt="image" onerror="this.onerror=null; this.src='https://ik.imagekit.io/jasonooi/Add%20a%20heading.zip%20-%204.jpeg?updatedAt=1754308163899';">
+            <img src="https://i.ibb.co/MyQ7Sbbd/img1.png" class="image_about" alt="image">
             <h3 class="name_each_person">Lychee Sensation</h3>
         </div>
          <div class="each_person">
-            <img src="https://ik.imagekit.io/jasonooi/Add%20a%20heading.zip%20-%204.jpeg?updatedAt=1754308163899" class="image_about" alt="image" onerror="this.onerror=null; this.src='https://ik.imagekit.io/jasonooi/Add%20a%20heading.zip%20-%204.jpeg?updatedAt=1754308163899';">
+            <img src="https://i.ibb.co/dJH0Q1fV/Add-a-heading-zip-4.png" class="image_about" alt="image">
             <h3 class="name_each_person">Choko Deez Nuts</h3>
         </div>
         <div class="each_person">
-            <img src="https://ik.imagekit.io/jasonooi/Add%20a%20heading.jpeg?updatedAt=1754308163956" class="image_about" alt="image" onerror="this.onerror=null; this.src='https://ik.imagekit.io/jasonooi/Add%20a%20heading.jpeg?updatedAt=1754308163956';">
+            <img src="https://ik.imagekit.io/jasonooi/Add%20a%20heading.jpeg?updatedAt=1754308163956" class="image_about" alt="image">
             <h3 class="name_each_person">Spooky Choc</h3>
         </div>
         </div>
@@ -1439,7 +1439,8 @@ function render_images() {
       var price = row[1];
       var topping = JSON.stringify(row[2].trim().split(", ")).replace(/"/g, "'");
       var image = row[3];
-      document.getElementById("drink_menu").innerHTML += `<img class="order_images" src="${image}" onclick="navigation='order_chosen';navigate();add_cart('${name}','${price}','${image}', ${topping})">`;
+      var back_up = row[4];
+      document.getElementById("drink_menu").innerHTML += `<img class="order_images" src="${image}" onclick="navigation='order_chosen';navigate();add_cart('${name}','${price}','${image}', ${topping})" onerror="this.onerror=null; this.src='';">`;
     }
 }
 
