@@ -1416,10 +1416,6 @@ function add_to_cart() {
 
   // Drinks
 function drinks() {
-  // AIzaSyDtYnCFqXieMKOaVo7OhN6b8W7esVdknJY (users4)
-  // AIzaSyBl_r5DKjdD3psXKxUOPA4XNhtxqsyrgT0 (users3)
-  //AIzaSyBJxaglYf_C8eg2RitXnRjaekXHAR-TEV8 (users2)
-  // AIzaSyDZTgkFS2btgRW_gudCuQZ6KKgCAe86OAo (users1)
   // const apiKey = ["AIzaSyDWNrk5Y3tlT7g1xAs157Pd77-oLMmOw0M","AIzaSyDovSVgpRkJ3od511umMilPQbbT5wM3dcE"];
   const apiKey = ["AIzaSyDZTgkFS2btgRW_gudCuQZ6KKgCAe86OAo", "AIzaSyBJxaglYf_C8eg2RitXnRjaekXHAR-TEV8", "AIzaSyB-9g4DlbyAqxRSUjbfI3-WkQ_jBYuLj-A"];
   const spreadsheetId = "1u6lP1SoOr6w_ON2BFtsCFc76aDzlnE9q8zX8y2K7qu4";
@@ -1443,10 +1439,7 @@ function render_images() {
       var price = row[1];
       var topping = JSON.stringify(row[2].trim().split(", ")).replace(/"/g, "'");
       var image = row[3];
-      var back_up_image = row[4];
-      console.log({ name, price, topping, image })
-      console.log(topping)
-      document.getElementById("drink_menu").innerHTML += `<img class="order_images" src="${image}" onclick="navigation='order_chosen';navigate();add_cart('${name}','${price}','${image}', ${topping})" onerror="this.onerror=null; this.src='${back_up_image}';">`;
+      document.getElementById("drink_menu").innerHTML += `<img class="order_images" src="${image}" onclick="navigation='order_chosen';navigate();add_cart('${name}','${price}','${image}', ${topping})">`;
     }
 }
 
