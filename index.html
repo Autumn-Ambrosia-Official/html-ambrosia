@@ -1027,11 +1027,6 @@ img {vertical-align: middle;}
             <li id="cart_navigation_back" class="cart_navigation_item">Back</li>
             </ul>
       <div id="cart_inner"></div>
-      <h3>Please do note that you must pick up your order on 15 October at Taylor Puchong (our booth located near the poolside) as we will not accept any refund requests.</h3>
-      <br>
-      <h4>You can see more details on our recent posts. Thank you.</h4><br>
-      
-      <button id="place_order" onclick="send(this)">Place order</button>
    </div>
 
    <!--About page-->
@@ -1299,7 +1294,7 @@ function add_one(id) {
       </div>
          `
        });
-     //  document.getElementById("cart_inner").innerHTML += `<h3>Please do note that you must pick up your order on 15 October at Taylor Puchong (our booth located near the poolside) as we will not accept any refund requests.</h3><br><h4>You can see more details on our recent posts. Thank you.</h4><br><button id="place_order" onclick="send(this)">Place order</button>`;
+      document.getElementById("cart_inner").innerHTML += `<h3>Please do note that you must pick up your order on 15 October at Taylor Puchong (our booth located near the poolside) as we will not accept any refund requests.</h3><br><h4>You can see more details on our recent posts. Thank you.</h4><br><button id="place_order" onclick="send(this)">Place order</button>`;
      }
 
 
@@ -1649,7 +1644,7 @@ function check_if_got_user() {
  //delete account
  function delete_acc() {
   localStorage.removeItem("user");
-  db.run('DROP TABLE cart');
+  db.run('DELETE FROM cart');
   save_cartdata();
   navigation = "create";
   navigate();
