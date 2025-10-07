@@ -1591,6 +1591,10 @@ function send(button) {
     .finally(() => {
       button.disabled = false; 
     });
+
+    setTimeOut(() => {
+      button.disabled = true;
+    }, 2500);
   }
 
 
