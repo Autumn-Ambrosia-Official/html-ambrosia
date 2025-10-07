@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#142e64">
   <link rel="icon" type="image/png" href="https://ik.imagekit.io/mtezxb4dx/IMG_0769.jpeg?updatedAt=1759201442325">
   <style>
@@ -1534,7 +1533,7 @@ function add_cart(name,price,image,topping) {
 //send
 function send(button) {
   button.disabled = true;
-  alert("We will be redirecting you to another site to view your final order.");
+  alert("We will be redirecting you to another site to view your final order. \n\n Please click close to continue.");
   var order_links = ["https://autumns-ambrosia-order1.onrender.com", "https://autumns-ambrosia-order2.onrender.com"]
   var order = document.getElementsByClassName("selected_items");
     let order_checked = [];
