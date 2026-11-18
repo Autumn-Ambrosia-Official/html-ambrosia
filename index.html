@@ -1536,7 +1536,7 @@ function add_cart(name,price,image,topping) {
 function send(button) {
   button.disabled = true;
   alert("We will be redirecting you to another site to view your final order. \n\n Please click close to continue.");
-  var order_links = ["https://autumns-ambrosia-order1.onrender.com", "https://autumns-ambrosia-order2.onrender.com"]
+  var order_links = ["https://autumns-ambrosia-order1.onrender.com"]
   var order = document.getElementsByClassName("selected_items");
     let order_checked = [];
     for (i=0; i<order.length; i++) {
@@ -1565,8 +1565,8 @@ function send(button) {
   console.log(string_data)
    
   let token;
-  let link_chosen = order_links[Math.floor(Math.random() * order_links.length)]
-  fetch(`${link_chosen}/token`)
+  //let link_chosen = order_links[Math.floor(Math.random() * order_links.length)]
+  fetch(`${order_links[0]}/token`)
   .then(response => response.json())
   .then(data => {
     token = data.token; 
