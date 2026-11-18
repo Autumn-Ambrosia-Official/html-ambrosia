@@ -1570,7 +1570,7 @@ function send(button) {
   .then(response => response.json())
   .then(data => {
     token = data.token; 
-    return fetch(`${link_chosen}/submit_order?token=${token}`, {
+    return fetch(`${order_links[0]}/submit_order?token=${token}`, {
       method: "POST",
       headers: {
          "Content-Type": "application/json"
@@ -1581,7 +1581,7 @@ function send(button) {
     .then(response => response.json())
     .then(data => {
       if (data.message == "success") {
-        window.location.href = `${link_chosen}/confirm?token=${token}`;
+        window.location.href = `${order_links[0]}/confirm?token=${token}`;
       } else {
         alert(`Error: ${data.error}`)
       }
